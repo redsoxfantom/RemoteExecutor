@@ -1,5 +1,7 @@
 package com.redsoxfantom.remoteexecutor.dataaccess;
 
+import java.util.logging.Logger;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -7,6 +9,7 @@ import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class DataAccessor 
 {
@@ -34,5 +37,9 @@ public class DataAccessor
 		editor = pref.edit();
 		
 		String loadedData = pref.getString("stored_user_data", fileContentsJson.toString());
+		fileContentsJson = new JSONObject(loadedData);
+		fileContents = (LoadedData) fileContentsJson.get("UserData");
+		
+		Log.i("DataAccessor", "Loaded "+loadedData+" from shared preferences");
 	}
 }
