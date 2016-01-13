@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
 import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
 import android.content.Context;
@@ -17,8 +18,12 @@ public class DataAccessor
 	
 	SharedPreferences.Editor editor;
 	
-	public DataAccessor(Context context) throws JSONException
+	Gson parser;
+	
+	public DataAccessor(Context context)
 	{
+		parser = new Gson();
+		
 		loadFile(context);
 	}
 	
@@ -27,18 +32,15 @@ public class DataAccessor
 		
 	}
 	
-	private void loadFile(Context context) throws JSONException
+	private void loadFile(Context context)
 	{
 		fileContents = new LoadedData();
-		JSONObject fileContentsJson = new JSONObject();
-		fileContentsJson.put("UserData", fileContents);
 		
 		SharedPreferences pref = context.getSharedPreferences("com.redsoxfantom.remoteexecutor.stored_user_data_file", Context.MODE_PRIVATE);
 		editor = pref.edit();
 		
-		String loadedData = pref.getString("stored_user_data", fileContentsJson.toString());
-		fileContentsJson = new JSONObject(loadedData);
-		fileContents = (LoadedData) fileContentsJson.get("UserData");
+		String loadedData = pref.getString("stored_user_data", parser.toJson(fileContents, fileContents.getClass()));
+		fileContents = parser.fromJson(loadedData, fileContents.getClass());
 		
 		Log.i("DataAccessor", "Loaded "+loadedData+" from shared preferences");
 	}
