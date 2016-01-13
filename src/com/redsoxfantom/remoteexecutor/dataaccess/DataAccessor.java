@@ -3,6 +3,7 @@ package com.redsoxfantom.remoteexecutor.dataaccess;
 import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 public class DataAccessor 
 {
@@ -23,6 +24,7 @@ public class DataAccessor
 	
 	private void loadFile()
 	{
-		context.getFilesDir();
+		SharedPreferences pref = context.getSharedPreferences("com.redsoxfantom.remoteexecutor.stored_user_data", Context.MODE_PRIVATE);
+		
 	}
 }
