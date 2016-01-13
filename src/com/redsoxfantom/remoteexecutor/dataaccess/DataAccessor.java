@@ -1,11 +1,10 @@
 package com.redsoxfantom.remoteexecutor.dataaccess;
 
-import java.util.logging.Logger;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
 import com.google.gson.Gson;
+import com.redsoxfantom.remoteexecutor.data.Command;
+import com.redsoxfantom.remoteexecutor.data.Host;
 import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
 import android.content.Context;
@@ -27,9 +26,14 @@ public class DataAccessor
 		loadFile(context);
 	}
 	
-	public void SaveData(LoadedData dataToSave)
+	public List<Host> getLoadedHosts()
 	{
-		
+		return fileContents.getHostList();
+	}
+	
+	public List<Command> getLoadedCommands()
+	{
+		return fileContents.getCommandList();
 	}
 	
 	private void loadFile(Context context)
