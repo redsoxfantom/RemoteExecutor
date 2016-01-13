@@ -1,5 +1,8 @@
 package com.redsoxfantom.remoteexecutor.dataaccess;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
 import android.content.Context;
@@ -9,12 +12,11 @@ public class DataAccessor
 {
 	LoadedData fileContents;
 	
-	Context context;
+	SharedPreferences.Editor editor;
 	
-	public DataAccessor(Context context)
+	public DataAccessor(Context context) throws JSONException
 	{
-		this.context = context;
-		loadFile();
+		loadFile(context);
 	}
 	
 	public void SaveData(LoadedData dataToSave)
@@ -22,9 +24,15 @@ public class DataAccessor
 		
 	}
 	
-	private void loadFile()
+	private void loadFile(Context context) throws JSONException
 	{
-		SharedPreferences pref = context.getSharedPreferences("com.redsoxfantom.remoteexecutor.stored_user_data", Context.MODE_PRIVATE);
+		fileContents = new LoadedData();
+		JSONObject fileContentsJson = new JSONObject();
+		fileContentsJson.put("UserData", fileContents);
 		
+		SharedPreferences pref = context.getSharedPreferences("com.redsoxfantom.remoteexecutor.stored_user_data_file", Context.MODE_PRIVATE);
+		editor = pref.edit();
+		
+		String loadedData = pref.getString("stored_user_data", fileContentsJson.toString());
 	}
 }
