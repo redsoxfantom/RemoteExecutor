@@ -2,28 +2,27 @@ package com.redsoxfantom.remoteexecutor.dataaccess;
 
 import com.redsoxfantom.remoteexecutor.data.LoadedData;
 
+import android.content.Context;
+
 public class DataAccessor 
 {
-	static DataAccessor instance = null;
-	
 	LoadedData fileContents;
 	
-	public static DataAccessor getInstance()
-	{
-		if(instance == null)
-		{
-			instance = new DataAccessor();
-		}
-		return instance;
-	}
+	Context context;
 	
-	private DataAccessor()
+	public DataAccessor(Context context)
 	{
-		
+		this.context = context;
+		loadFile();
 	}
 	
 	public void SaveData(LoadedData dataToSave)
 	{
 		
+	}
+	
+	private void loadFile()
+	{
+		context.getFilesDir();
 	}
 }
